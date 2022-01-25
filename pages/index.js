@@ -1,37 +1,10 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import appConfig from '../config.json';
-
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: 'Open Sans', sans-serif;
-      }
-      /* App fit Height */ 
-      html, body, #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */ 
-    `}</style>
-  );
-}
+import defaultImage from '../img/mabel-left.png';
 
 function Title(props) {
-  console.log(props);
   const Tag = props.tag || 'h1';
   return(
     <>
@@ -47,7 +20,6 @@ function Title(props) {
     </>
   );
 }
-
 
 // // Componente react
 // function HomePage() {
@@ -65,15 +37,21 @@ function Title(props) {
 // export default HomePage;
 
 export default function PaginaInicial() {
-  const username = 'freddcf';
+  // const username = 'freddcf';
+  const [username, setUsername] = useState('');
+  const user = username.length > 2 ? username : '';
+  const [name, setName] = useState('');
+  const root = useRouter();
+
+  function getName() {
+      user ? fetch(`https://api.github.com/users/${user}`).then(response => response.json()).then(data => setName(data.name)) : setName('');
+  }
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'url(https://wallpapercave.com/wp/wp8315560.png)',
-          backgroundRepeat: 'no-repeat', backgroundSize: 'cover', 
+          display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'url(https://wallpapercave.com/wp/wp8315560.png)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', 
         }}
       >
         <Box
@@ -94,6 +72,10 @@ export default function PaginaInicial() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function(event) {
+              event.preventDefault();
+              root.push('/chat');
+            }}
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
@@ -105,6 +87,16 @@ export default function PaginaInicial() {
             </Text>
 
             <TextField
+              placeholder='Insira o seu GitHub user'
+              value={username}
+              onChange = {function handler(event) {
+                // Onde está o valor?
+                const valor = event.target.value;
+                // Trocar o valor da variável
+                // através do react
+                setUsername(valor);
+              }}
+              autoComplete='off'
               fullWidth
               textFieldColors={{
                 neutral: {
@@ -125,6 +117,7 @@ export default function PaginaInicial() {
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
+              disabled={user ? false : true}
             />
           </Box>
           {/* Formulário */}
@@ -151,7 +144,7 @@ export default function PaginaInicial() {
                 borderRadius: '50%',
                 marginBottom: '16px',
               }}
-              src={`https://github.com/${username}.png`}
+              src={user ? `https://github.com/${user}.png`: defaultImage.src}
             />
             <Text
               variant="body4"
@@ -162,7 +155,7 @@ export default function PaginaInicial() {
                 borderRadius: '1000px'
               }}
             >
-              {username}
+              {!user ? '. . .' : name ? name : user}
             </Text>
           </Box>
           {/* Photo Area */}
