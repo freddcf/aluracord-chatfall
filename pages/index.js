@@ -43,9 +43,9 @@ export default function PaginaInicial() {
   const [name, setName] = useState('');
   const root = useRouter();
 
-  function getName() {
+  useEffect(() => {
       user ? fetch(`https://api.github.com/users/${user}`).then(response => response.json()).then(data => setName(data.name)) : setName('');
-  }
+  });
 
   return (
     <>
@@ -95,6 +95,7 @@ export default function PaginaInicial() {
                 // Trocar o valor da variável
                 // através do react
                 setUsername(valor);
+                user ? fetch(`https://api.github.com/users/${user}`).then(response => response.json()).then(data => setName(data.name)) : setName('');
               }}
               autoComplete='off'
               fullWidth
