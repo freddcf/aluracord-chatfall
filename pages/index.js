@@ -3,16 +3,17 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import appConfig from '../config.json';
 import defaultImage from '../img/mabel-left.png';
+import backgroundTelaInicial from '../img/backgroundTI.png';
 
 function Title(props) {
   const Tag = props.tag || 'h1';
-  return(
+  return (
     <>
       <Tag>{props.children}</Tag>
       <style jsx>{`
       ${Tag} {
         color: ${appConfig.theme.colors.neutrals
-          ['000']};
+        ['000']};
         font-size: 24px;
         font-weight: 600;
       }
@@ -44,14 +45,14 @@ export default function PaginaInicial() {
   const root = useRouter();
 
   useEffect(() => {
-      user ? fetch(`https://api.github.com/users/${user}`).then(response => response.json()).then(data => setName(data.name)) : setName('');
+    user ? fetch(`https://api.github.com/users/${user}`).then(response => response.json()).then(data => setName(data.name)) : setName('');
   });
 
   return (
     <>
       <Box
         styleSheet={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: 'url(https://wallpapercave.com/wp/wp8315560.png)', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', 
+          display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: `url(${backgroundTelaInicial.src})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
         }}
       >
         <Box
@@ -72,7 +73,7 @@ export default function PaginaInicial() {
           {/* Formulário */}
           <Box
             as="form"
-            onSubmit={function(event) {
+            onSubmit={function (event) {
               event.preventDefault();
               root.push('/chat');
             }}
@@ -89,7 +90,7 @@ export default function PaginaInicial() {
             <TextField
               placeholder='Insira o seu GitHub user'
               value={username}
-              onChange = {function handler(event) {
+              onChange={function handler(event) {
                 // Onde está o valor?
                 const valor = event.target.value;
                 // Trocar o valor da variável
@@ -145,7 +146,7 @@ export default function PaginaInicial() {
                 borderRadius: '50%',
                 marginBottom: '16px',
               }}
-              src={user ? `https://github.com/${user}.png`: defaultImage.src}
+              src={user ? `https://github.com/${user}.png` : defaultImage.src}
             />
             <Text
               variant="body4"
