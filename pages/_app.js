@@ -1,4 +1,5 @@
 import Head from "next/head";
+import appConfig from '../config.json';
 
 function GlobalStyle() {
   return (
@@ -23,6 +24,11 @@ function GlobalStyle() {
       }
       #__next > * {
         flex: 1;
+      }
+      .hoveredMessage:hover .trashIcon {
+        color: ${appConfig.theme.colors.neutrals[300]};
+        cursor: pointer;
+        right: 40px;
       }
       /* ./App fit Height */ 
     `}</style>
