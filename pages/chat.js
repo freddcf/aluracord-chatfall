@@ -51,7 +51,7 @@ export default function ChatPage() {
           height: '100%',
           maxWidth: '95%',
           maxHeight: '95vh',
-          padding: '32px',
+          padding: {xs: '12px', sm:'32px'},
         }}
       >
         <Header />
@@ -64,7 +64,7 @@ export default function ChatPage() {
             backgroundColor: appConfig.theme.colors.neutrals[600],
             flexDirection: 'column',
             borderRadius: '5px',
-            padding: '16px',
+            padding: {xs: '8px', sm:'16px'},
           }}
         >
           <MessageList messages={chatList} deleteMessage={deleteMessage} />
@@ -94,7 +94,7 @@ export default function ChatPage() {
                   if(message) handleNewMessage(message);
                 }
               }}
-              placeholder="Insira sua mensagem aqui..."
+              placeholder="Inserir mensagem..."
               type="textarea"
               styleSheet={{
                 width: '100%',
@@ -109,7 +109,7 @@ export default function ChatPage() {
             />
             <Button
               label='Enviar'
-              size='lg'
+              size='sm'
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
                 mainColor: appConfig.theme.colors.primary[500],
@@ -137,7 +137,7 @@ export default function ChatPage() {
 function Header() {
   return (
     <>
-      <Box styleSheet={{ width: '100%', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
+      <Box styleSheet={{ width: '100%', marginBottom: {xs: '10px', sm:'16px'}, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
         <Text variant='heading5'>
           Chat - Dev Falls
         </Text>
@@ -169,7 +169,7 @@ function MessageList(props) {
         flexDirection: 'column-reverse',
         flex: 1,
         color: appConfig.theme.colors.neutrals["000"],
-        marginBottom: '16px',
+        marginBottom: {xs: '8px', sm:'16px'},
       }}
     >
 
@@ -179,6 +179,7 @@ function MessageList(props) {
             key={message.id}
             tag="li"
             styleSheet={{
+              fontSize: {xs: '12px', sm:'16px'},
               borderRadius: '5px',
               padding: '6px',
               marginBottom: '12px',
@@ -197,7 +198,7 @@ function MessageList(props) {
 
               <Box
                 styleSheet={{
-                  marginBottom: '8px',
+                  marginBottom: {xs: '2px', sm:'8px'},
                 }}
               >
                 <Image
@@ -210,7 +211,11 @@ function MessageList(props) {
                   }}
                   src={`https://github.com/${message.from}.png`}
                 />
-                <Text tag="strong">
+                <Text tag="strong"
+                styleSheet={{
+                  fontSize: {xs: '12px', sm:'16px'},
+                }}
+                >
                   {message.from}
                 </Text>
                 <Text

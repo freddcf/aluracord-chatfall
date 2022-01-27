@@ -28,7 +28,7 @@ function GlobalStyle() {
       .hoveredMessage:hover .trashIcon {
         color: ${appConfig.theme.colors.neutrals[300]};
         cursor: pointer;
-        right: 40px;
+        right: 30px;
       }
       /* ./App fit Height */ 
     `}</style>
