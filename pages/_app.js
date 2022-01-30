@@ -28,7 +28,15 @@ function GlobalStyle() {
       .hoveredMessage:hover .trashIcon {
         color: ${appConfig.theme.colors.neutrals[300]};
         cursor: pointer;
-        right: 30px;
+      }
+      ::-webkit-scrollbar-track {
+        background-color: ${appConfig.theme.colors.neutrals[500]};
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: ${appConfig.theme.colors.neutrals[300]};
       }
       /* ./App fit Height */ 
     `}</style>

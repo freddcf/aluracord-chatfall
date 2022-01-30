@@ -42,11 +42,16 @@ export default function PaginaInicial() {
   const [username, setUsername] = useState('');
   const user = username.length > 2 ? username : '';
   const [name, setName] = useState('');
+  const [counter, setCounter] = useState(0);
   const root = useRouter();
 
+  let timer = null; // variavel para armazenar nosso timer
+
   useEffect(() => {
-    user ? fetch(`https://api.github.com/users/${user}`).then(response => response.json()).then(data => setName(data.name)) : setName('');
-  });
+    user ? fetch(`https://api.github.com/users/${user}`)
+      .then(response => response.json())
+      .then(data => setName(data.name)) : setName('');
+  }, [counter]);
 
   return (
     <>
@@ -75,11 +80,15 @@ export default function PaginaInicial() {
             as="form"
             onSubmit={function (event) {
               event.preventDefault();
-              root.push('/chat');
+              if(name){
+                root.push(`/chat?username=${username}`);
+              } else {
+                root.push(`/`);
+              }
             }}
             styleSheet={{
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: { xs: '250px', sm: '50%' }, textAlign: 'center',
+              marginBottom: '30px'
             }}
           >
             <Title tag="h2">Boas vindas de volta!</Title>
@@ -90,13 +99,15 @@ export default function PaginaInicial() {
             <TextField
               placeholder='Insira o seu GitHub user'
               value={username}
-              onChange={function handler(event) {
-                // Onde está o valor?
+              onInput={function handler(event) {
                 const valor = event.target.value;
-                // Trocar o valor da variável
-                // através do react
                 setUsername(valor);
-                user ? fetch(`https://api.github.com/users/${user}`).then(response => response.json()).then(data => setName(data.name)) : setName('');
+                // limpamos o timer
+                clearTimeout(timer);
+                // armazenamos o timer novamente
+                timer = setTimeout(function () {
+                  setCounter(counter + 1)
+                }, 2000);
               }}
               autoComplete='off'
               fullWidth
@@ -146,7 +157,7 @@ export default function PaginaInicial() {
                 borderRadius: '50%',
                 marginBottom: '16px',
               }}
-              src={user ? `https://github.com/${user}.png` : defaultImage.src}
+              src={name ? `https://github.com/${user}.png` : defaultImage.src}
             />
             <Text
               variant="body4"
@@ -161,6 +172,7 @@ export default function PaginaInicial() {
               {!user ? '. . .' : name ? name : user}
             </Text>
           </Box>
+
           {/* Photo Area */}
         </Box>
       </Box>
