@@ -2,8 +2,9 @@ import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import appConfig from '../config.json';
-import defaultImage from '../img/mabel-left.png';
-import backgroundTelaInicial from '../img/backgroundTI.png';
+import defaultImage from '../src/img/mabel-left.png';
+import backgroundTelaInicial from '../src/img/backgroundTI.png';
+import backgroundTelaInicialSmall from '../src/img/backgroundTIsmall.png';
 
 function Title(props) {
   const Tag = props.tag || 'h1';
@@ -57,7 +58,7 @@ export default function PaginaInicial() {
     <>
       <Box
         styleSheet={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: `url(${backgroundTelaInicial.src})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundImage: {xs:`url(${backgroundTelaInicialSmall.src})`, lg:`url(${backgroundTelaInicial.src})`}, backgroundRepeat: 'no-repeat', backgroundSize: 'cover',
         }}
       >
         <Box
@@ -69,7 +70,8 @@ export default function PaginaInicial() {
               xs: 'column',
               sm: 'row',
             },
-            width: '100%', maxWidth: '700px',
+            width: {xs: '350px' ,sm:'100%'}, 
+            maxWidth: '700px',
             borderRadius: '5px', padding: '32px', margin: '16px',
             boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
             backgroundColor: appConfig.theme.colors.neutrals[700],

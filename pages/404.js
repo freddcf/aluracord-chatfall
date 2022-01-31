@@ -1,7 +1,7 @@
 import { Box, Button, Text, Image } from '@skynexui/components';
 import { useRouter } from 'next/router';
 import appConfig from '../config.json';
-import errorImage from '../img/img404.png';
+import errorImage from '../src/img/img404.png';
 
 export default function notFound() {
   const root = useRouter();

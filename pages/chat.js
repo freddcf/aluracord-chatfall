@@ -2,8 +2,9 @@ import { Box, Text, TextField, Image, Button, Icon } from '@skynexui/components'
 import { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/router';
+import RotateLoader from "react-spinners/RotateLoader";
 import appConfig from '../config.json';
-import background from '../img/backgroundChat.jpg';
+import background from '../src/img/backgroundChat.jpg';
 import { ButtonSendSticker } from '../src/components/btnSendSticker';
 
 const SUPABASE_URL = 'https://rjdctdlzpxuekrjxmdsw.supabase.co';
@@ -230,11 +231,20 @@ function Header(props) {
 }
 
 function MessageList(props) {
+  const [loading, setLoading] = useState('');
   const deleteMessage = props.deleteMessage;
   const username = props.username;
-  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }
+  const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000)
+  }, [])
 
   return (
+
     <Box
       tag="ul"
       styleSheet={{
@@ -243,102 +253,125 @@ function MessageList(props) {
         flexDirection: 'column-reverse',
         flex: 1,
         color: appConfig.theme.colors.neutrals["000"],
-
       }}
     >
-
-      {props.messages.map((message) => {
-        return (
-          <Text className='hoveredMessage'
-            key={message.id}
-            tag="li"
+      {
+        loading ?
+          <Box
             styleSheet={{
-              fontSize: { xs: '12px', sm: '16px' },
-              borderRadius: '5px',
-              padding: '6px',
-              marginBottom: '10px',
-              hover: {
-                backgroundColor: appConfig.theme.colors.neutrals[700],
-              },
-              wordBreak: 'break-word',
-            }}
-          >
-            <Box
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <RotateLoader
+              color={'#29A39B'}
+              loading={loading}
+              size={20}
               styleSheet={{
-                display: 'flex',
-                justifyContent: 'space-between',
+                alignSelf: 'center',
+                justifySelf: 'center'
               }}
-            >
+            />
 
-              <Box
+          </Box>
+          :
+
+          props.messages.map((message) => {
+            return (
+              <Text className='hoveredMessage'
+                key={message.id}
+                tag="li"
                 styleSheet={{
-                  marginBottom: { xs: '2px', sm: '8px' },
+                  fontSize: { xs: '12px', sm: '16px' },
+                  borderRadius: '5px',
+                  padding: '6px',
+                  marginBottom: '10px',
+                  hover: {
+                    backgroundColor: appConfig.theme.colors.neutrals[700],
+                  },
+                  wordBreak: 'break-word',
                 }}
               >
-                <Image
+                <Box
                   styleSheet={{
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    display: 'inline-block',
-                    marginRight: '8px',
-                  }}
-                  src={`https://github.com/${message.de}.png`}
-                />
-                <Text tag="strong"
-                  styleSheet={{
-                    fontSize: { xs: '12px', sm: '16px' },
+                    display: 'flex',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  {message.de}
-                </Text>
-                <Text
-                  styleSheet={{
-                    fontSize: '10px',
-                    marginLeft: '8px',
-                    color: appConfig.theme.colors.neutrals[300],
-                  }}
-                  tag="span"
-                >
-                  {(new Date(message.created_at).toLocaleDateString('pt-BR', options))}
-                </Text>
-              </Box>
-              <Box className={message.de === username ? "trashIcon" : ''}
-                data-id={message.id}
-                onClick={deleteMessage}
-                styleSheet={{
-                  display: 'inline-block',
-                  color: 'transparent',
-                  alignSelf: 'center',
-                  transition: '.4s ease',
-                  marginRight: '8px',
-                }}
-              >
-                <Icon
-                  name={"FaTrash"}
-                  styleSheet={{
-                    width: { xs: '13px', sm: '14px' },
-                    height: { xs: '13px', sm: '14px' },
-                    pointerEvents: 'none',
-                  }}
-                />
-              </Box>
-            </Box>
-            {message.texto.startsWith(':sticker:')
-              ? (
-                <Image
-                  height='100px'
-                  width='100px'
-                  src={message.texto.replace(':sticker:', '')}
-                />
-              )
-              : (
-                message.texto
-              )}
-            {/* {message.texto} */}
-          </Text>
-        );
-      })}
+
+                  <Box
+                    styleSheet={{
+                      marginBottom: { xs: '2px', sm: '8px' },
+                    }}
+                  >
+                    <Image
+                      styleSheet={{
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '50%',
+                        display: 'inline-block',
+                        marginRight: '8px',
+                      }}
+                      src={`https://github.com/${message.de}.png`}
+                    />
+                    <Text tag="strong"
+                      styleSheet={{
+                        fontSize: { xs: '12px', sm: '16px' },
+                      }}
+                    >
+                      {message.de}
+                    </Text>
+                    <Text
+                      styleSheet={{
+                        fontSize: '11px',
+                        marginLeft: '8px',
+                        color: appConfig.theme.colors.neutrals[300],
+                      }}
+                      tag="span"
+                    >
+                      {(new Date(message.created_at).toLocaleDateString('pt-BR', options))}
+                    </Text>
+                  </Box>
+                  <Box className={message.de === username ? "trashIcon" : ''}
+                    data-id={message.id}
+                    onClick={deleteMessage}
+                    styleSheet={{
+                      display: 'inline-block',
+                      color: 'transparent',
+                      alignSelf: 'center',
+                      transition: '.4s ease',
+                      marginRight: '8px',
+                    }}
+                  >
+                    <Icon
+                      name={"FaTrash"}
+                      styleSheet={{
+                        width: { xs: '13px', sm: '14px' },
+                        height: { xs: '13px', sm: '14px' },
+                        pointerEvents: 'none',
+                      }}
+                    />
+                  </Box>
+                </Box>
+                {message.texto.startsWith(':sticker:')
+                  ? (
+                    <Image
+                      height='100px'
+                      width='100px'
+                      src={message.texto.replace(':sticker:', '')}
+                    />
+                  )
+                  : (
+                    message.texto
+                  )}
+                {/* {message.texto} */}
+              </Text>
+            );
+          })
+      }
+
     </Box>
   )
 }
