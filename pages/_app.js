@@ -44,7 +44,6 @@ function GlobalStyle() {
 }
 
 export default function MyApp({ Component, pageProps }) {
-  console.log('roda em todo cantoooo');
   return (
     <>
       <GlobalStyle/><Head>
