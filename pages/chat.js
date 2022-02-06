@@ -15,10 +15,8 @@ function getRealTimeChat(messageStatus) {
     .from('messages')
     .on('*', (response) => {
       if (response.eventType === 'INSERT') {
-        console.log(response.new);
         messageStatus('INSERT', response.new)
       } else if (response.eventType === 'DELETE') {
-        console.log(response.old);
         messageStatus('DELETE', response.old)
       }
     }).subscribe();
@@ -41,8 +39,6 @@ export default function ChatPage() {
       });
 
     getRealTimeChat((eventType, loadMessage) => {
-      console.log(eventType);
-      console.log(loadMessage);
       // supabaseClient.removeAllSubscriptions()
       if (eventType === 'INSERT') {
         setChatList((currentChatListValue) => {
@@ -173,7 +169,6 @@ export default function ChatPage() {
           {/* Callback */}
           <ButtonSendSticker
             onStickerClick={(sticker) => {
-              console.log('Usando o componente');
               handleNewMessage(`:sticker:${sticker}`)
             }}
           />
