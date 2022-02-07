@@ -13,8 +13,9 @@ Desenvolvido durante a Imersão react 4 da Alura, esse projeto trata-se de uma a
 
 ## Tecnologias predominantes
 
+* React (Library)
 * Next.js (Framework)
-* SkynexUI (React Style Library)
+* SkynexUI (Style Library)
 * Supabase (Online Database)
 
 ## Alterações adicionais em relação a aplicação proposta
