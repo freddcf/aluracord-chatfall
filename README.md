@@ -4,8 +4,8 @@ Este é um projeto criado na imersão React com a @alura @omariosouto @peas
 
 ## Tema: Gravity Falls
 
-![Preview Screen (login)](https://github.com/freddcf/aluracord-chatfall/blob/main/src/img/preview-loginscreen.png?raw=true)
-![Preview Screen (chat)](https://github.com/freddcf/aluracord-chatfall/blob/main/src/img/preview-chatscreen.png?raw=true)
+![Preview Screen (login)](.github/sr-img.png)
+![Preview Screen (chat)](.github/sr-img-2.png)
 
 ## Sobre
 
